@@ -17,6 +17,7 @@ def give_sign_bit_and_convert(hex_number):
         
         # if number is negative, remove the '-' sign from the number
         hex_number = hex_number[ 1 : ]
+        
     else:
         # If positive sign bit is 0
         sign_bit = "0"
@@ -24,7 +25,8 @@ def give_sign_bit_and_convert(hex_number):
         # If for the string we get numbers like +1, +3 etc...
         if hex_number[0] == '+':
             # remove the '+' sign 
-            hex_number = hex_number[ 1 : ]            
+            hex_number = hex_number[ 1 : ]
+            
         
     return sign_bit, hex_number
 
@@ -39,15 +41,17 @@ def get_exponent(hex_number):
     @RETURN: exponent of the number in binary'''
     
     # Get the sign of the exponent
-    sign_of_expo, expo = give_sign_bit_and_convert(hex_number)    
+    sign_of_expo, expo = give_sign_bit_and_convert(hex_number)
     
     # 0 for positive
-    if sign_of_expo == 0:
-        # Convert to integer and add 127
+    if sign_of_expo == '0':
+        # Convert to integer and add 127       
         int_exp = int("0x" + expo, base = 16) + 127
     else:
         # Convert to integer and add 127
         int_exp = int("-0x" + expo, base = 16) + 127
+        
+    print(int_exp)
     
     # Check for overflow, underflow conditions 
     if int_exp < 0:
@@ -109,20 +113,23 @@ def dec_to_float32(str_number):
     
     
     #Check for 0, 0 is exception
+    
+    # try to parse, check if 0
     try:
-        # try to parse, check if 0
         if( int(str_number) == 0):
             sign_bit = 1
             mantissa = "0"*23
             exponent = "0"*8
             return "sign: {} \nexponent: {} \nmantissa: {}".format(sign_bit, exponent, mantissa)
     except ValueError:
-        try:
-            # Parse string to hexadecimal form
-            hex_number = float(str_number).hex()
-        
-        except ValueError:
-            return "sign: {} \nexponent: {} \nmantissa: {}".format('', '', '')
+        pass
+    #Try to parse float
+    try:
+        # Parse string to hexadecimal form
+        hex_number = float(str_number).hex()
+    
+    except ValueError:
+        return "sign: {} \nexponent: {} \nmantissa: {}".format('', '', '')
         
     
     # Get the sign_bit and the formatted number
@@ -142,7 +149,7 @@ def dec_to_float32(str_number):
     # Handle Exceptions
     # If exponent is already 255(1111 1111) and mantissa nonzero
     # then we set it to infinities
-    if exponent == "1" * 8 and mantissa.find(1) != -1:
+    if exponent == bin(255)[2:] and mantissa.find("1") != -1:
         mantissa = "1" * 23   
         
-    return "sign: {} \nexponent: {} \nmantissa: {}".format(sign_bit, exponent, mantissa)
+    return (sign_bit, exponent, mantissa)
