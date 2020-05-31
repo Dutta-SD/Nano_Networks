@@ -1,9 +1,11 @@
 from dectobin_function import dec_to_float32
 import pandas as pd
 
+
+
 def csv2float32(filename):
     # read DataFrame   
-    df = pd.read_csv(filename, header = None, dtype='str')
+    df = pd.read_csv(filename, header = None, dtype='str', sep = "\t")
     
     # Concatenate numbers 
     for i in df.columns:
@@ -38,3 +40,5 @@ def xlsx2float32(filename):
     return Final_df
 
 
+#filename = ".\new_1.xlsx"
+# xlsx2float32(filename)
