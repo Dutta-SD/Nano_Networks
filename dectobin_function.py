@@ -50,8 +50,6 @@ def get_exponent(hex_number):
     else:
         # Convert to integer and add 127
         int_exp = int("-0x" + expo, base = 16) + 127
-        
-    print(int_exp)
     
     # Check for overflow, underflow conditions 
     if int_exp < 0:
